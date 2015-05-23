@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+	default-autowire="byName" default-lazy-init="false">
+	<bean id="mongoClientURI" class="com.mongodb.MongoClientURI">
+		<constructor-arg index="0"
+			value="mongodb://10.0.0.101:27017/test?maxpoolsize=100;minpoolsize=0;maxidletimems=0;maxlifetimems=0;waitqueuemultiple=5;waitqueuetimeoutms=120000;connecttimeoutms=10000;sockettimeoutms=0;ssl=false" />
+	</bean>
+	<bean id="simpleMongoDbFactory"
+		class="org.springframework.data.mongodb.core.SimpleMongoDbFactory">
+		<constructor-arg index="0" ref="mongoClientURI" />
+	</bean>
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg index="0" ref="simpleMongoDbFactory" />
+	</bean>
+	<context:component-scan base-package="unittest,unittest.dao" />
+</beans>
